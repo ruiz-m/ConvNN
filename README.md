@@ -2,9 +2,9 @@
 
 A Convolutional Neural Network for image classification
 
-Uses the cross-correlation operation on the images through a set of filters for each RGB color.
+Uses the cross-correlation (convolution) operation on the images through a set of filters for each RGB color.
 
-The network uses a ReLU activiation function and softmax function on the last layer of the network for image classification
+The network uses a ReLU activiation function and softmax function on the last layer of the network for image classification.
 
 In the example shown, the network is trained to differentiate between specific pictures of apples and oranges and then it is
 able to classify the correct fruit in the image based on a different set of pictures.
