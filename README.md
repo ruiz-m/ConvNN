@@ -1,6 +1,6 @@
 # ConvNN
 
-A Convolutional Neural Network for image classification
+A convolutional neural network for image classification
 
 Uses the cross-correlation (convolution) operation on the images through a set of filters for each RGB color.
 
