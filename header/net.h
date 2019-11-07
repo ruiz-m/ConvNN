@@ -2,6 +2,7 @@
 #include<iostream>
 #include<vector>
 #include<math.h>
+#include<ctime>
 #include"node.h"
 #include"Image.h"
 
