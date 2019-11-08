@@ -145,7 +145,12 @@ void Net::softMax()
     }
     
     for(unsigned int i = 0; i < fLayers[fLayers.size() - 1].size(); i++)
-        fLayers[fLayers.size() - 1][i].softMax(sum);
+    {
+        if(fLayers[fLayers.size() - 1][i].softMax(sum))
+        {
+            restart();
+        }
+    }
 }
 
 filterSet& Net::getFilters()

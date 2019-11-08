@@ -29,7 +29,7 @@ public:
     void feed(vector<node> &prevLayer);
     void backOut(float expected, unsigned int size);
     void back(vector<node> &nextLayer);
-    void softMax(float sum);
+    bool softMax(float sum);
     void updateWeights(vector<node> &prevLayer);
     void updateWeights(vector<vector<vector<node>>> &cLayer);
     float RELU(float x);
@@ -58,6 +58,7 @@ node::node(int index)
 
 node::node(int prevSize, int index)
 {
+    srand(time(NULL));
     output = 0.0f;
     rate = 0.05f;
     bias = 0.5f;
@@ -157,9 +158,12 @@ void node::back(vector<node> &nextLayer)
     nabla = sum * deriRELU(rawOutput);
 }
 
-void node::softMax(float sum)
+bool node::softMax(float sum)
 {
     output = exp(- 1 * output) / sum;
+    if(isnan(output))
+        return true;
+    return false;
 }
 
 void node::updateWeights(vector<node> &prevLayer)
