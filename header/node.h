@@ -49,7 +49,7 @@ node::node()
 
 node::node(int index)
 {
-     output = 0.0f;
+    output = 0.0f;
     rate = 0.05f;
     bias = 0.5f;
     nabla = 0.0f;
