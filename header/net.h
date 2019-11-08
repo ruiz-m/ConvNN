@@ -32,11 +32,12 @@ public:
     void softMax();
     void backProp(vector<float> &expected);
     void updateWeights();
-    //float sigmoid();
+    void restart();
 };
 
 Net::Net(int filterRow, int filterCol, vector<int> &topology, int width, int height)
 {
+    srand(time(NULL));
     fwidth = filterCol;
     fheight = filterRow;
     filters.resize(3);
@@ -227,5 +228,38 @@ void Net::updateWeights()
             }
         }
     }
-    //cout << "YES0" << endl;
+}
+
+void Net::restart()
+{
+    for(unsigned int i = 0; i < filters.size(); i++)
+    {
+        for(unsigned int j = 0; j < filters[i].size(); j++)
+        {
+            for(unsigned int k = 0; k < filters[i][j].size(); k++)
+            {
+                filters[i][j][k] = 2 * ((double) rand() / (RAND_MAX)) - 1;
+            }
+        }
+    }
+
+    for(unsigned int i = 0; i < cLayer.size(); i++)
+    {
+        for(unsigned int j = 0; j < cLayer[i].size(); j++)
+        {
+            for(unsigned int k = 0; k < cLayer[i][j].size(); k++)
+            {
+                cLayer[i][j][k].restart();
+            }
+        }
+    }
+
+
+    for(unsigned int i = 0; i < fLayers.size(); i++)
+    {
+        for(unsigned int j = 0; j < fLayers[i].size(); j++)
+        {
+            fLayers[i][j].restart();
+        }
+    }
 }

@@ -34,7 +34,7 @@ public:
     void updateWeights(vector<vector<vector<node>>> &cLayer);
     float RELU(float x);
     float deriRELU(float x);
-    //float sigmoid(float x);
+    void restart();
 };
 
 node::node()
@@ -215,4 +215,14 @@ float node::deriRELU(float x)
         return 0.01;
     
     return 0;
+}
+
+void node::restart()
+{
+    output = 0.0f;
+    bias = 0.5f;
+    nabla = 0.0f;
+
+    for(unsigned int i = 0; i < weights.size(); i++)
+        weights[i] = 2 * ((double) rand() / (RAND_MAX)) - 1;
 }
