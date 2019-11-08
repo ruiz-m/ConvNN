@@ -237,6 +237,7 @@ void Net::updateWeights()
 
 void Net::restart()
 {
+    cout << "Bad" << endl;
     for(unsigned int i = 0; i < filters.size(); i++)
     {
         for(unsigned int j = 0; j < filters[i].size(); j++)

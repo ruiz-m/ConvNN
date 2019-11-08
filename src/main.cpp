@@ -37,7 +37,7 @@ int main()
     Net net(28, 28, top, orange.width, orange.height);
 
     cout << "Training" << endl;
-    for(unsigned int i = 0; i < 100; i++)
+    for(unsigned int i = 0; i < 500; i++)
     {
         expected.clear();
         expected = {0, 1};
