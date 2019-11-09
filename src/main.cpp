@@ -47,7 +47,7 @@ int main()
 
         expected.clear();
         expected = {1, 0};
-        net.feedfoward(apple);
+        net.feedfoward(apple2);
         net.backProp(expected);
         net.updateWeights();
     }
