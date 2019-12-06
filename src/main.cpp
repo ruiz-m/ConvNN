@@ -35,7 +35,7 @@ int main()
 
     vector<int> top = {2};
     vector<float> expected = {0, 0};
-    Net net(45, 45, top, orange.width, orange.height);
+    Net net(28, 28, top, orange.width, orange.height);
 
     cout << "Training" << endl;
     for(unsigned int i = 0; i < 200; i++)
@@ -105,7 +105,7 @@ int main()
     net.feedfoward(apple2);
     printOutput(net);
     
-    cout << "Putin3 Expected: 0, 1" << endl;
+    cout << "Apple3 Expected: 1, 0" << endl;
     net.feedfoward(apple3);
     printOutput(net);
     cout << endl;
