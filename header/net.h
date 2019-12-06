@@ -33,11 +33,11 @@ public:
     void backProp(vector<float> &expected);
     void updateWeights();
     void restart();
+    float getCost(vector<float> &expected);
 };
 
 Net::Net(int filterRow, int filterCol, vector<int> &topology, int width, int height)
 {
-    srand(time(NULL));
     fwidth = filterCol;
     fheight = filterRow;
     filters.resize(3);
@@ -140,16 +140,32 @@ void Net::softMax()
     float sum = 0.0f;
     for(unsigned int i = 0; i < fLayers[fLayers.size() - 1].size(); i++)
     {
+        /*if(fLayers[fLayers.size() - 1][i].getOutput() < -100)
+        {
+            fLayers[fLayers.size() - 1][i].setOutput(-100);
+        }
+        else if(fLayers[fLayers.size() - 1][i].getOutput() > 100)
+        {
+            fLayers[fLayers.size() - 1][i].setOutput(100);
+        }*/
         sum += exp(-1 * fLayers[fLayers.size() - 1][i].getOutput());
         ////cout << sum << endl;
     }
-    
+    if(sum == 0)
+    {
+        sum = 1;
+    }
+    bool check = true;
     for(unsigned int i = 0; i < fLayers[fLayers.size() - 1].size(); i++)
     {
         if(fLayers[fLayers.size() - 1][i].softMax(sum))
         {
-            restart();
+            check = false;
         }
+    }
+    if(!check)
+    {
+        restart();
     }
 }
 
@@ -268,4 +284,13 @@ void Net::restart()
             fLayers[i][j].restart();
         }
     }
+}
+
+float Net::getCost(vector<float> &expected)
+{
+    float sum = 0.0f;
+    for(unsigned int i = 0; i < fLayers[fLayers.size() - 1].size(); i++)
+        sum += (expected[i] - fLayers[fLayers.size() - 1][i].getOutput()) * (expected[i] - fLayers[fLayers.size() - 1][i].getOutput());
+    cost = sum / (expected.size());
+    return cost;
 }

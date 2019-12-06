@@ -14,6 +14,7 @@ char* createArray(string s);
 
 int main()
 {
+    srand(time(NULL));
     char* cfile = createArray("./pictures/orange1.bmp");
     char* cfile2 = createArray("./pictures/apple.bmp");
     char* cfile3 = createArray("./pictures/orange2.bmp");
@@ -34,22 +35,57 @@ int main()
 
     vector<int> top = {2};
     vector<float> expected = {0, 0};
-    Net net(28, 28, top, orange.width, orange.height);
+    Net net(45, 45, top, orange.width, orange.height);
 
     cout << "Training" << endl;
-    for(unsigned int i = 0; i < 500; i++)
+    for(unsigned int i = 0; i < 200; i++)
     {
-        expected.clear();
-        expected = {0, 1};
-        net.feedfoward(orange);
-        net.backProp(expected);
-        net.updateWeights();
+        if(i % 10 == 0)
+            cout << 200 - i << endl;
+        
+        int num = rand() % 2;
+        if(num == 0)
+        {
+            //cout << "Putin" << endl;
+            expected.clear();
+            expected = {0, 1};
+            net.feedfoward(orange);
+            if(net.getCost(expected) > 0.05)
+            {
+                net.backProp(expected);
+                net.updateWeights();
+            }
 
-        expected.clear();
-        expected = {1, 0};
-        net.feedfoward(apple2);
-        net.backProp(expected);
-        net.updateWeights();
+            expected.clear();
+            expected = {0, 1};
+            net.feedfoward(orange2);
+            if(net.getCost(expected) > 0.05)
+            {
+                net.backProp(expected);
+                net.updateWeights();
+            }
+        }
+        else
+        {
+            //cout << "trump" << endl;
+            expected.clear();
+            expected = {1, 0};
+            net.feedfoward(apple);
+            if(net.getCost(expected) > 0.05)
+            {
+                net.backProp(expected);
+                net.updateWeights();
+            }
+            expected.clear();
+            expected = {1, 0};
+            net.feedfoward(apple2);
+            if(net.getCost(expected) > 0.05)
+            {
+                net.backProp(expected);
+                net.updateWeights();
+            }
+            //printOutput(net);
+        }
     }
     //printConv(net);
 
@@ -69,7 +105,7 @@ int main()
     net.feedfoward(apple2);
     printOutput(net);
     
-    cout << "Apple3 Expected: 1, 0" << endl;
+    cout << "Putin3 Expected: 0, 1" << endl;
     net.feedfoward(apple3);
     printOutput(net);
     cout << endl;

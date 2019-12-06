@@ -12,7 +12,6 @@ private:
     float rate;
     float bias;
     float nabla;
-    float cost;
     int index;
 public:
     node();
@@ -21,7 +20,6 @@ public:
     float getOutput();
     void setOutput(float out);
     vector<float>& getWeights();
-    float getCost();
     float getNabla();
     float getBias();
     float getRate();
@@ -44,7 +42,6 @@ node::node()
     rate = 0.05f;
     bias = 0.5f;
     nabla = 0.0f;
-    cost = 0.0f;
 }
 
 node::node(int index)
@@ -53,18 +50,15 @@ node::node(int index)
     rate = 0.05f;
     bias = 0.5f;
     nabla = 0.0f;
-    cost = 0.0f;
     this->index = index;
 }
 
 node::node(int prevSize, int index)
 {
-    srand(time(NULL));
     output = 0.0f;
     rate = 0.05f;
     bias = 0.5f;
     nabla = 0.0f;
-    cost = 0.0f;
     this->index = index;
     weights.resize(prevSize);
     for(int i = 0; i < prevSize; i++)
@@ -84,11 +78,6 @@ void node::setOutput(float out)
 vector<float>& node::getWeights()
 {
     return weights;
-}
-
-float node::getCost()
-{
-    return cost;
 }
 
 float node::getNabla()
@@ -152,6 +141,8 @@ void node::backOut(float expected, unsigned int size)
 
 void node::back(vector<node> &nextLayer)
 {
+    float weightsum = 0.0f;
+
     float sum = 0.0f;
     for(unsigned int i = 0; i < nextLayer.size(); i++)
         sum += nextLayer[i].getWeights()[index] * nextLayer[i].getNabla();
@@ -161,9 +152,12 @@ void node::back(vector<node> &nextLayer)
 
 bool node::softMax(float sum)
 {
-    output = exp(- 1 * output) / sum;
+    /*cout << "Output: " << output << endl;
+    cout << "Sum: " << sum << endl;*/
+    output = exp(-1 * output) / sum;
     if(isnan(output))
         return true;
+    
     return false;
 }
 
@@ -172,7 +166,7 @@ void node::updateWeights(vector<node> &prevLayer)
     for(unsigned int i = 0; i < prevLayer.size(); i++)
     {
         float dCdw = prevLayer[i].getOutput() * nabla;
-        weights[i] -= rate * dCdw;
+        weights[i] -= rate * (dCdw + 2 * 0.1 * weights[i]);
     }
 
     bias -= rate * nabla;
@@ -188,7 +182,7 @@ void node::updateWeights(vector<vector<vector<node>>> &cLayer)
             for(unsigned int k = 0; k < cLayer[i][j].size(); k++)
             {
                 float dCdw = cLayer[i][j][k].getOutput() * nabla;
-                weights[w] -= rate * dCdw;
+                weights[w] -= rate * (dCdw + 2 * 0.1 * weights[w]);
                 w++;
             }
         }
