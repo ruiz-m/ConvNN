@@ -46,7 +46,6 @@ int main()
         int num = rand() % 2;
         if(num == 0)
         {
-            //cout << "Putin" << endl;
             expected.clear();
             expected = {0, 1};
             net.feedfoward(orange);
@@ -67,7 +66,6 @@ int main()
         }
         else
         {
-            //cout << "trump" << endl;
             expected.clear();
             expected = {1, 0};
             net.feedfoward(apple);
