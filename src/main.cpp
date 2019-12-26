@@ -35,13 +35,13 @@ int main()
 
     vector<int> top = {2};
     vector<float> expected = {0, 0};
-    Net net(28, 28, top, orange.width, orange.height);
+    Net net(25, 25, top, orange.width, orange.height);
 
     cout << "Training" << endl;
-    for(unsigned int i = 0; i < 200; i++)
+    for(unsigned int i = 0; i < 500; i++)
     {
         if(i % 10 == 0)
-            cout << 200 - i << endl;
+            cout << 500 - i << endl;
         
         int num = rand() % 2;
         if(num == 0)
